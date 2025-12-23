@@ -260,9 +260,9 @@ class TestTOTP:
     def test_totp_invalid_format_rejected(self):
         """Invalid TOTP format should be rejected."""
         gen = TOTPGenerator()
-        assert not gen.verify("12345")  # Too short
-        assert not gen.verify("1234567")  # Too long
-        assert not gen.verify("abcdef")  # Not digits
+        assert not gen.verify("12345")  # too short
+        assert not gen.verify("1234567")  # too long
+        assert not gen.verify("abcdef")  # not digits
     
     def test_totp_expired_code_rejected(self):
         """Expired TOTP code should be rejected."""
@@ -272,7 +272,7 @@ class TestTOTP:
         current_time = time.time()
         code = gen.generate(timestamp=current_time)
         
-        # Try to verify at a much later time (many periods later)
+        # try to verify at a much later time
         later_time = current_time + (TOTP_TIME_STEP * 60)
         assert not gen.verify(code, timestamp=later_time)
     
@@ -287,7 +287,7 @@ class TestTOTP:
         """TOTP manager should verify codes."""
         mgr = TOTPManager()
         
-        # Create a secret and verify directly
+        #create a secret and verify directly
         secret = generate_secret()
         gen = TOTPGenerator(secret=secret)
         code = gen.generate()
@@ -298,5 +298,5 @@ class TestTOTP:
         """Wrong TOTP code should fail verification."""
         mgr = TOTPManager()
         fake_secret = generate_secret()
-        # A random code should fail
+        #a random code should fail
         assert not mgr.verify_code(fake_secret, "123456")
