@@ -356,7 +356,7 @@ Risk Level: Low (audit log only)
 Workaround: Implement distributed consensus
 ```
 
-### 6. No Forward Secrecy for Files
+### 6. No Forward Secrecy for files
 ```
 Limitation: File encryption uses password-derived key
 Impact:     Password compromise exposes all files
