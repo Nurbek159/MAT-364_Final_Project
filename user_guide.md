@@ -35,7 +35,7 @@ cd cryptovault
 ### Interactive Python Shell
 
 ```powershell
-# Start Python interactive shell
+# start Python interactive shell
 python
 ```
 
@@ -48,7 +48,7 @@ python
 ```python
 from src.core_crypto.sha256 import sha256, sha256_hex
 
-# Hash bytes and get raw bytes result
+# hash bytes and get raw bytes result
 hash_bytes = sha256(b"Hello, World!")
 print(f"Hash (bytes): {hash_bytes.hex()}")
 
@@ -56,7 +56,7 @@ print(f"Hash (bytes): {hash_bytes.hex()}")
 hash_hex = sha256_hex(b"Hello, World!")
 print(f"Hash (hex): {hash_hex}")
 
-# Hash a file
+# hash a file
 with open("document.txt", "rb") as f:
     file_hash = sha256_hex(f.read())
 print(f"File hash: {file_hash}")
@@ -72,7 +72,7 @@ Hash (hex): dffd6021bb2bd5b0af676290809ec3a53191dd81c7f70a4b28688a362182986f
 ```python
 from src.core_crypto.merkle import MerkleTree
 
-# Create a Merkle tree from transaction data
+# create a Merkle tree from transaction data
 transactions = [
     b"Alice sends 10 to Bob",
     b"Bob sends 5 to Charlie",
