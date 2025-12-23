@@ -1,0 +1,7 @@
+cryptography
+pyotp
+argon2-cffi
+bcrypt
+pytest
+coverage
+qrcode
