@@ -27,29 +27,151 @@ CryptoVault is a MAT-364 Final Project demonstrating practical cryptographic imp
 
 ## Features
 
-### Module 1: Authentication
-- Argon2id password hashing
-- Rate-limited login with lockout
-- TOTP (RFC 6238) two-factor authentication
-- Session management with HMAC tokens
+### Module 1: Authentication System
+**Complete user authentication with multi-factor security**
+
+- **Argon2id Password Hashing**
+  - Memory-hard password hashing (64 MB, 3 iterations, 4 threads)
+  - Automatic salt generation using CSPRNG
+  - Protection against GPU and side-channel attacks
+  
+- **Password Strength Validation**
+  - Minimum 8 characters (configurable)
+  - Requires uppercase, lowercase, digits, and special characters
+  - Password strength scoring (0-100)
+  - Prevents weak passwords at registration
+
+- **Rate-Limited Login**
+  - Maximum 5 failed attempts before lockout
+  - 5-minute lockout duration
+  - IP-based and username-based rate limiting
+  - Prevents brute-force attacks
+
+- **TOTP Two-Factor Authentication (RFC 6238)**
+  - Time-based one-time passwords
+  - QR code generation for authenticator apps (Google Authenticator, Authy)
+  - Time drift tolerance (±30 seconds)
+  - Secure secret generation and storage
+
+- **Session Management**
+  - HMAC-SHA256 authenticated session tokens
+  - Configurable session expiration (default: 1 hour)
+  - Constant-time token verification
+  - Automatic session cleanup
 
 ### Module 2: Secure Messaging
-- ECDH key exchange (P-256)
-- AES-256-GCM encryption
-- ECDSA digital signatures
-- Perfect forward secrecy
+**End-to-end encrypted communication with perfect forward secrecy**
 
-### Module 3: File Encryption
-- PBKDF2 key derivation
-- AES-GCM streaming encryption
-- HMAC integrity verification
-- Large file support
+- **ECDH Key Exchange (P-256)**
+  - Elliptic Curve Diffie-Hellman on SECP256R1 curve
+  - Ephemeral key pairs for each session
+  - Shared secret derivation (32 bytes)
 
-### Module 4: Blockchain Ledger
-- Proof-of-Work consensus
-- Merkle root transaction verification
-- Chain validation
-- Immutable audit logging
+- **HKDF Key Derivation**
+  - HMAC-based Key Derivation Function (RFC 5869)
+  - Context-specific key derivation
+  - Salted key generation
+
+- **AES-256-GCM Encryption**
+  - Authenticated encryption with associated data
+  - Unique 96-bit nonce per message
+  - 128-bit authentication tag
+  - Protection against tampering
+
+- **ECDSA Digital Signatures**
+  - P-256 elliptic curve signatures
+  - Signs SHA-256 hash of ciphertext (not plaintext)
+  - Non-repudiation guarantee
+  - Signature verification before decryption
+
+- **Perfect Forward Secrecy**
+  - Ephemeral ECDH keys per message
+  - Compromised long-term keys don't affect past messages
+  - One-shot API for PFS messaging
+
+### Module 3: File Encryption System
+**Secure file storage with streaming encryption**
+
+- **PBKDF2 Key Derivation**
+  - 100,000 iterations minimum (configurable)
+  - SHA-256 based key stretching
+  - Unique 256-bit salt per file
+  - Protection against password brute-force
+
+- **File Encryption Key (FEK) Architecture**
+  - Random 256-bit FEK per file
+  - FEK encrypted with password-derived master key (KEK)
+  - Key wrapping using AES-GCM
+  - Enables key rotation without re-encrypting files
+
+- **Streaming Encryption**
+  - Chunked encryption for large files (1 MB chunks default)
+  - Memory-efficient (doesn't load entire file)
+  - Supports files of any size
+  - Unique nonce per chunk
+
+- **Integrity Verification**
+  - SHA-256 hash of original file stored in header
+  - HMAC-SHA256 over entire encrypted file
+  - **Verification BEFORE decryption** (prevents malicious decryption)
+  - Tamper detection with clear error messages
+
+- **File Format**
+  - Custom header with magic bytes ("CVLT")
+  - Version field for future compatibility
+  - Metadata encryption support ready
+
+### Module 4: Blockchain Audit Ledger
+**Immutable audit trail for security events**
+
+- **Block Structure**
+  - Previous block hash (SHA-256 double hash)
+  - Merkle root of all transactions
+  - Timestamp and nonce
+  - Block hash meeting difficulty target
+
+- **Merkle Tree Integration**
+  - Custom Merkle tree implementation
+  - Transaction inclusion proofs
+  - Proof verification
+  - Handles odd number of transactions
+
+- **Proof of Work Consensus**
+  - Adjustable difficulty (leading zero bits)
+  - Double SHA-256 hashing (Bitcoin-style)
+  - Nonce search algorithm
+  - Chain validation
+
+- **Chain Integrity**
+  - Full chain validation
+  - Block-by-block verification
+  - Hash chaining verification
+  - Immutable blocks (frozen dataclass)
+
+### Integration Module: Event Logger
+**Blockchain-based security audit logging**
+
+- **Privacy-Preserving Logging**
+  - SHA-256 hashing of usernames
+  - IP address hashing
+  - No plaintext sensitive data in blockchain
+
+- **Event Types**
+  - Authentication events (login, logout, TOTP)
+  - File operations (encrypt, decrypt, integrity checks)
+  - Messaging events (send, receive, key exchange)
+  - System events (startup, shutdown)
+
+- **Automatic Mining**
+  - Configurable batch size (default: 10 events)
+  - Automatic block mining when batch full
+  - Manual mining API available
+
+- **Query Capabilities**
+  - Filter events by user (hashed)
+  - Filter events by type
+  - Get recent events
+  - Full audit log export/import
 
 ---
 
