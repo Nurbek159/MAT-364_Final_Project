@@ -1,4 +1,36 @@
 # CryptoVault Architecture
+## Architecture Principles
+
+### 1. Modularity
+
+Each module is self-contained with:
+- Clear interfaces
+- Minimal dependencies
+- Independent testing capability
+- Well-defined responsibilities
+
+### 2. Security First
+
+- **Zero Trust**: Verify everything, trust nothing
+- **Defense in Depth**: Multiple security layers
+- **Fail Secure**: Failures default to secure state
+- **Least Privilege**: Minimal access required
+
+### 3. Privacy by Design
+
+- User data hashed before logging
+- No plaintext sensitive data in audit logs
+- Privacy-preserving event logging
+- Configurable privacy levels
+
+### 4. Performance
+
+- Streaming encryption for large files
+- Efficient memory usage
+- Configurable performance parameters
+- Asynchronous operations where possible
+
+---
 
 ## Module Diagram
 
