@@ -31,20 +31,20 @@ class TestProofOfWork:
     def test_hash_meets_target(self):
         """Hash below target should be valid."""
         pow = ProofOfWork(difficulty=8)
-        # A hash with leading zeros meets target
+        # a hash with leading zeros meets target
         valid_hash = b'\x00' + b'\xff' * 31
         assert pow.hash_meets_target(valid_hash)
     
     def test_hash_above_target(self):
         """Hash above target should be invalid."""
         pow = ProofOfWork(difficulty=8)
-        # A hash with no leading zeros
+        # a hash with no leading zeros
         invalid_hash = b'\xff' * 32
         assert not pow.hash_meets_target(invalid_hash)
     
     def test_mining_finds_valid_nonce(self):
         """Mining should find a valid nonce."""
-        pow = ProofOfWork(difficulty=4)  # Low difficulty for fast test
+        pow = ProofOfWork(difficulty=4)  # low difficulty for fast test
         
         nonce, hash_result = pow.mine(
             index=1,
@@ -209,7 +209,7 @@ class TestBlockchainValidation:
         """Block with wrong index should be rejected."""
         bc = Blockchain(difficulty=4)
         
-        # Create a block with wrong index
+        # create a block with wrong index
         fake_block = Block(
             index=999,  # Wrong index
             prev_hash=bc.last_block.hash,
@@ -272,7 +272,7 @@ class TestBlockchainValidation:
             merkle_root=merkle_root,
             timestamp=int(time.time()),
             nonce=0,
-            hash=b'\xff' * 32,  # Wrong hash
+            hash=b'\xff' * 32,  # wrong hash
             transactions=("tx1",)
         )
         
